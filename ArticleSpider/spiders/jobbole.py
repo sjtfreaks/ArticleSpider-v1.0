@@ -21,6 +21,7 @@ class JobboleSpider(scrapy.Spider):
             #取数组中的第一个
             fav_nums = match_re.group(1)
 
+
         #评论数
         comment_nums = response.xpath("//a[@href='#article-comment']/span/text()").extract()[0]
         match_re = re.match(".*(\d+).*",comment_nums)
@@ -28,5 +29,10 @@ class JobboleSpider(scrapy.Spider):
             # 取数组中的第一个
             fav_nums = match_re.group(1)
 
+        #简介
         cotent = response.xpath("//div[@class='entry']").extract()[0]
+        list = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/a/text()').extract()
+        #去重
+        list = [element for element in list if not element.strip().endswtich("评论")]
+        tags = ",".join(list)
         pass
