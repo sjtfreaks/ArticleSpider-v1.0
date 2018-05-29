@@ -36,4 +36,22 @@ class JobboleSpider(scrapy.Spider):
         list = [element for element in list if not element.strip().endswtich("评论")]
 
         tags = ",".join(list)
+        
+         #通过css选择器提取字段
+        title1 =  response.css(".entry-header h1::text").extract()
+        date1 = response.css("p.entry-meta-hide-on-mobile::text").extract()[0].strip().replace("·","").strip()
+        praise_nums1 = response.css(".vote-post-up h10::text").extract()[0]
+        fav_nums1 = response.css("span.bookmark-btn::text").extract()[0]
+        match_re = re.match(".*?(\d+).*", fav_nums1)
+        if match_re:
+            # 取数组中的第一个
+            fav_nums1 = match_re.group(1)
+        comment_nums1 =  response.css("a[href='#article-comment'] span::text").extract()[0]
+        match_re = re.match(".*?(\d+).*", comment_nums1)
+        if match_re:
+            # 取数组中的第一个
+            comment_nums1 = match_re.group(1)
+        content1 = response.css("div.entry").extract()[0]
+
+        tags = response.css("p.entry-meta-hide-on-mobile a::text").extract()[0]
         pass
