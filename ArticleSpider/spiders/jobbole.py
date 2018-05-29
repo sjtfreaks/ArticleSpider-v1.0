@@ -34,5 +34,6 @@ class JobboleSpider(scrapy.Spider):
         list = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/a/text()').extract()
         #去重
         list = [element for element in list if not element.strip().endswtich("评论")]
+
         tags = ",".join(list)
         pass
